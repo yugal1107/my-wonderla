@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@theme {
+  /* Fonts */
+  --font-family-mulish: "Mulish", sans-serif;
+  
+  /* Colors */
+  --color-blue: #006fbb;
+  --color-blue-light: #0095ff;
+  --color-blue-pale: rgba(113, 125, 146, 0.2);
+  --color-yellow: #ffd700;
+  --color-yellow-dark: #e6c300;
+  --color-black-300: #333333;
+  
+  /* Spacing */
+  --spacing: 0.25rem;
+  
+  /* Border radius */
+  --radius-wonderla: 20px;
+  
+  /* Shadows */
+  --shadow-wonderla: 0 4px 20px rgba(0, 0, 0, 0.1);
+  
+  /* Transitions */
+  --transition-default: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@layer base {
+  html {
+    font-family: var(--font-family-mulish);
+  }
+  
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-blue);
+    border-radius: 9999px;
+  }
+}
+
+@layer components {
+  .wonderla-btn {
+    background-color: var(--color-yellow);
+    color: var(--color-blue);
+    font-family: var(--font-family-mulish);
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 0 14px;
+    height: 34px;
+    border-radius: 8px;
+    transition: background-color 0.2s var(--transition-default);
+    
+    &:hover {
+      background-color: var(--color-yellow-dark);
+    }
+  }
+  
+  .dropdown-card {
+    width: 294px;
+    border-radius: var(--radius-wonderla);
+    background-color: white;
+    padding: 16px;
+    box-shadow: var(--shadow-wonderla);
+  }
+}
