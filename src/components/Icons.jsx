@@ -81,13 +81,25 @@ const Icons = ({
     // Renamed from 'chevron' for clarity
     chevronDown: (
       <svg
-        width="12"
-        height="8"
-        viewBox="0 0 12 8"
-        className={`${defaultSvgClasses} fill-current text-[#717D92] group-hover:rotate-180 transition-transform duration-200`}
+        height="24"
+        width="24"
+        className=""
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#334DCF"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       >
-        <path d="M1.41 0.589996L6 5.17L10.59 0.589996L12 2L6 8L0 2L1.41 0.589996Z" />
+        <path d="M6 9L12 15L18 9" />
       </svg>
+    ),
+    chevronDownLocation: (
+      <img
+        src="https://wonderla.vercel.app/icons/downarrow.svg"
+        alt="downArrow"
+        class="m-0 transition-transform duration-200 group-hover:rotate-180"
+      ></img>
     ),
     // Inline SVG for the right arrow in submenus, uses currentColor
     // Renamed from 'arrow'

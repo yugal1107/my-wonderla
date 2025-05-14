@@ -16,7 +16,7 @@ const RideCard = ({ ride }) => {
   const gradientStyle = `bg-gradient-to-t from-[#22304A] via-[#22304A]/60 via-40% to-transparent`; // Fade from solid bottom, becoming transparent higher up
 
   return (
-    <div className="relative h-[346px] min-w-[246px] overflow-hidden rounded-t-[22px] shrink-0 group">
+    <div className="relative h-[346px] min-w-[246px] overflow-hidden rounded-t-[22px] shrink-0 group z-0">
       {/* Media Display */}
       <div className="absolute inset-0 w-full h-full">
         {ride.mediaType === "video" ? (

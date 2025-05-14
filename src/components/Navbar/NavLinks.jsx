@@ -3,7 +3,7 @@ import Dropdown from "./Dropdown";
 import Icons from "../Icons";
 
 const NavLinks = () => (
-  <nav className="mx-auto hidden flex-wrap items-center gap-x-7 gap-y-1 lg:flex">
+  <nav className="mx-auto flex-wrap items-center gap-x-7 gap-y-1 lg:flex">
     {navLinks.map((link) => (
       <div key={link.name} className="group relative">
         {link.dropdown ? (

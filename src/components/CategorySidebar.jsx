@@ -134,7 +134,7 @@ const CategorySidebar = ({
 
       {/* 3. Animated Active Category Marker (White Circle) */}
       <motion.div
-        className={`absolute size-[160px] translate-y-1 rounded-full border-[10px] border-[${YELLOW}] bg-white pointer-events-none`}
+        className={`absolute size-[160px] translate-y-1 rounded-full border-[10px] border-[#FACC15] bg-white pointer-events-none`}
         initial={false} // Don't animate on initial load, use activeCategory's position
         animate={currentTargets.marker}
         transition={{
