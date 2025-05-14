@@ -30,10 +30,6 @@ const RightArrowIcon = () => (
     ></path>
   </svg>
 );
-
-// Using specific yellow hex #FACC15 for background
-const YELLOW_BG = "bg-[#FACC15]"; // Updated syntax
-
 const CarouselControls = ({
   onPrevClick,
   onNextClick,
@@ -44,7 +40,7 @@ const CarouselControls = ({
     <div className="flex items-center justify-center gap-4">
       {/* Previous Button */}
       <button
-        className={`flex items-center justify-center size-12 rounded-full ${YELLOW_BG} transition-opacity duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white ${
+        className={`flex items-center justify-center size-12 rounded-full bg-yellow transition-opacity duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white ${
           canGoPrev
             ? "opacity-100 hover:opacity-90 cursor-pointer"
             : "opacity-50 cursor-not-allowed"
@@ -58,7 +54,7 @@ const CarouselControls = ({
 
       {/* Next Button */}
       <button
-        className={`flex items-center justify-center size-12 rounded-full ${YELLOW_BG} transition-opacity duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white ${
+        className={`flex items-center justify-center size-12 rounded-full bg-yellow transition-opacity duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white ${
           canGoNext
             ? "opacity-100 hover:opacity-90 cursor-pointer"
             : "opacity-50 cursor-not-allowed"

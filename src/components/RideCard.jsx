@@ -1,19 +1,13 @@
 import React from "react";
 
 // Define colors
-const ICON_BLUE = "#334DCF";
-const YELLOW_BUTTON = "#FACC15";
 const DARK_BLUE_GRADIENT_END = "#22304A";
-const DARK_BLUE_RGBA_0 = "rgba(34,48,74,0)"; // Transparent version of dark blue
 
 const RideCard = ({ ride }) => {
   if (!ride) return null;
 
-  // Replicate original gradient: Transparent up to ~34%, then fade to solid #22304A
-  // Using Tailwind arbitrary gradient stops: from-transparent via-transparent@34% to-[#22304A]
-  // NOTE: Tailwind syntax for stops is percentage AFTER color. Let's try defining it more simply.
-  // Fade starts roughly 1/3 down. bg-gradient-to-t starts from bottom.
-  const gradientStyle = `bg-gradient-to-t from-[#22304A] via-[#22304A]/60 via-40% to-transparent`; // Fade from solid bottom, becoming transparent higher up
+  // Gradient setup for overlay
+  const gradientStyle = `bg-gradient-to-t from-[#22304A] via-[#22304A]/60 via-40% to-transparent`;
 
   return (
     <div className="relative h-[346px] min-w-[246px] overflow-hidden rounded-t-[22px] shrink-0 group z-0">
