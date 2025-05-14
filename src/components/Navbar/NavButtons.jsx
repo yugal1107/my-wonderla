@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import Icons from './Icons';
+import { useState } from "react";
+import Icons from "../Icons";
 
-const NavButtons = () => {
+const NavButtons = ({ onMenuClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <div className="flex shrink-0 items-center gap-3 lg:gap-5">
       {/* Book Tickets Button */}
-      <a 
-        href="https://bookings.wonderla.com" 
-        target="_blank" 
+      <a
+        href="https://bookings.wonderla.com"
+        target="_blank"
         rel="noopener noreferrer"
         className="inline-block"
       >
@@ -22,12 +22,15 @@ const NavButtons = () => {
       </a>
 
       {/* Menu Button */}
-      <button 
+      <button
         className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-blue md:mx-2 lg:h-[17px] lg:w-[26px] lg:bg-transparent"
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        onClick={onMenuClick}
         aria-label="Toggle menu"
       >
-        <Icons type="menu" className="h-2.5 w-4 fill-yellow lg:h-[17px] lg:w-[26px] lg:fill-blue" />
+        <Icons
+          type="menu"
+          className="h-2.5 w-4 fill-yellow lg:h-[17px] lg:w-[26px] lg:fill-blue"
+        />
       </button>
 
       {/* Sidebar (will be implemented next) */}

@@ -1,6 +1,6 @@
-import { navLinks } from './navData';
-import Dropdown from './Dropdown';
-import Icons from './Icons';
+import { navLinks } from "./navData";
+import Dropdown from "./Dropdown";
+import Icons from "../Icons";
 
 const NavLinks = () => (
   <nav className="mx-auto hidden flex-wrap items-center gap-x-7 gap-y-1 lg:flex">
@@ -9,11 +9,11 @@ const NavLinks = () => (
         {link.dropdown ? (
           <Dropdown link={link} />
         ) : (
-          <a 
-            href={link.href} 
+          <a
+            href={link.href}
             className="capitalize flex cursor-pointer items-center gap-2 hover:text-blue-light transition-colors"
           >
-            <Icons type={link.icon} />
+            <Icons type={link.icon} className="text-red-500 size-6"/>
             <span className="inline-block font-mulish text-sm font-black uppercase">
               {link.name}
             </span>

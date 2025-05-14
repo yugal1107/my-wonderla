@@ -1,12 +1,14 @@
 import React from "react";
+import { motion } from "framer-motion"; // Import motion
 
-// Define colors for clarity
+// Define colors (same as before)
 const ICON_BLUE = "#334DCF";
-const YELLOW = "#FACC15"; // Or yellow-400
+const YELLOW = "#FACC15";
 const DARK_BLUE_BG = "#22304A";
-const LIGHT_BLUE_BADGE = "#5A688A"; // Or sky-500, blue-500 etc.
-const GRADIENT_LIGHT = "rgb(232, 233, 241)"; // Light part of the conic gradient
+const LIGHT_BLUE_BADGE = "#5A688A";
+const GRADIENT_LIGHT = "rgb(232, 233, 241)";
 
+// SVG Icons (ensure fill prop is used if you abstract them further)
 // Define SVGs with className prop for dynamic scaling
 const LandIcon = ({ className }) => (
   <svg
@@ -53,108 +55,138 @@ const KidsIcon = ({ className }) => (
   </svg>
 );
 
+// Animation targets for each category
+const categoryAnimationTargets = {
+  Land: {
+    marker: { left: "60px", top: "17px", right: "auto", bottom: "auto" },
+    gradientRotate: 15, // Rotate gradient so yellow is behind Land (top-ish)
+    // (Visual center of Land icon appears around -75deg. -75 - 40 = -115)
+  },
+  Water: {
+    marker: {
+      left: "137px",
+      top: "calc(50% - 80px)",
+      right: "auto",
+      bottom: "auto",
+    }, // Roughly center
+    gradientRotate: 70, // Rotate gradient so yellow is behind Water (middle-right)
+    // (Visual center of Water icon appears around 25deg. 25 - 40 = -15)
+  },
+  Kids: {
+    marker: { left: "45px", bottom: "17px", top: "auto", right: "auto" },
+    gradientRotate: 125, // Rotate gradient so yellow is behind Kids (bottom-ish)
+    // (Visual center of Kids icon appears around 105deg. 105 - 40 = 65)
+  },
+};
+
 const CategorySidebar = ({
   activeCategory,
   onSelectCategory,
   categoryCounts = {},
 }) => {
-  // Define positions for the white marker based on active category
-  // These might need fine-tuning based on visual inspection
-  const markerPositions = {
-    Land: { left: "51px", top: "17px" },
-    Water: { left: "111px", top: "calc(50% - 80px)" }, // Adjusted for centering visually
-    Kids: { left: "51px", bottom: "17px", top: "auto" },
-  };
+  const currentTargets =
+    categoryAnimationTargets[activeCategory] || categoryAnimationTargets.Land;
 
-  // Positions for each category group (icon + text)
-  const categoryPositions = {
-    Land: { right: "198px", top: "66px" },
-    Water: { right: "110px", top: "50%", transform: "translateY(-50%)" },
-    Kids: { right: "198px", bottom: "66px", top: "auto" },
-  };
+  // Fixed conic gradient definition (yellow band centered at 40deg from its 'from 0deg')
+  const fixedConicGradient = `conic-gradient(from -40deg, ${GRADIENT_LIGHT} 0deg, ${YELLOW} 50deg, ${YELLOW} 60deg,${GRADIENT_LIGHT} 150deg, ${GRADIENT_LIGHT} 0deg)`;
 
   const categories = [
     {
       name: "Land",
-      count: categoryCounts.Land || 0,
+      count: categoryCounts.Land || 74,
       Icon: LandIcon,
-      pos: categoryPositions.Land,
+      pos: { right: "180px", top: "66px" },
     },
     {
       name: "Water",
-      count: categoryCounts.Water || 0,
+      count: categoryCounts.Water || 55,
       Icon: WaterIcon,
-      pos: categoryPositions.Water,
+      pos: { right: "100px", top: "50%", transform: "translateY(-50%)" },
     },
     {
       name: "Kids",
-      count: categoryCounts.Kids || 0,
+      count: categoryCounts.Kids || 36,
       Icon: KidsIcon,
-      pos: categoryPositions.Kids,
+      pos: { right: "198px", bottom: "66px", top: "auto" },
     },
   ];
 
-  // Conic gradient definition
-  const conicGradient = `conic-gradient(from 0deg, ${GRADIENT_LIGHT} -55deg, ${YELLOW} 15deg, ${YELLOW} 65deg, ${GRADIENT_LIGHT} 135deg, ${GRADIENT_LIGHT})`;
-
   return (
-    // shrink-0 prevents this column from shrinking in the flex layout
-    <div className="relative h-[600px] w-[360px] overflow-visible rounded-lg shrink-0">
-      {/* Background Circles */}
-      <div
+    <div className="relative h-[600px] w-[360px] shrink-0">
+      {/* 1. Animated Rotating Conic Gradient Layer */}
+      <motion.div
         className="absolute right-[92px] top-0 size-[600px] rounded-full"
-        style={{ background: conicGradient }}
-      >
-        <div className="absolute left-[90px] top-[90px] size-[420px] rounded-full bg-[#22304A]"></div>{" "}
-        {/* Updated syntax */}
+        style={{ background: fixedConicGradient }}
+        animate={{ rotate: currentTargets.gradientRotate }}
+        transition={{
+          type: "spring",
+          stiffness: 100,
+          damping: 25,
+          duration: 0.8,
+        }}
+      />
+
+      {/* 2. Static Inner Dark Blue Circle (Visually on top of the rotating gradient) */}
+      {/* It shares the same positioning context as the gradient layer but doesn't rotate */}
+      <div className="absolute right-[92px] top-0 size-[600px] rounded-full flex items-center justify-center pointer-events-none">
+        <div className={`size-[420px] rounded-full bg-[${DARK_BLUE_BG}]`}></div>
       </div>
 
-      {/* Active Category Marker (White Circle) */}
-      <div
-        className={`absolute size-[160px] translate-y-1 rounded-full border-[10px] border-[#FACC15] bg-white transition-all duration-500 ease-in-out pointer-events-none`} // Updated syntax
-        style={markerPositions[activeCategory] || markerPositions.Land}
-      ></div>
+      {/* 3. Animated Active Category Marker (White Circle) */}
+      <motion.div
+        className={`absolute size-[160px] translate-y-1 rounded-full border-[10px] border-[${YELLOW}] bg-white pointer-events-none`}
+        initial={false} // Don't animate on initial load, use activeCategory's position
+        animate={currentTargets.marker}
+        transition={{
+          type: "spring",
+          stiffness: 200,
+          damping: 25,
+          duration: 0.6,
+        }}
+      />
 
-      {/* Category Items */}
-      {categories.map(({ name, count, Icon, pos }) => (
-        <div
-          key={name}
-          className="absolute cursor-pointer group focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-dark rounded-full" // Added focus styles for accessibility
-          style={pos}
-          onClick={() => onSelectCategory(name)}
-          role="button"
-          aria-pressed={activeCategory === name}
-          tabIndex={0}
-          onKeyDown={(e) =>
-            (e.key === "Enter" || e.key === " ") && onSelectCategory(name)
-          }
-        >
-          {/* Apply dynamic scaling to the Icon component */}
-          <Icon
-            className={activeCategory === name ? "scale-[1.35]" : "scale-100"}
-          />
-
-          {/* Text positioned relative to the icon */}
+      {/* 4. Category Clickable Areas, Icons & Text (Static positions relative to sidebar) */}
+      {categories.map(({ name, count, Icon, pos }) => {
+        const isActive = activeCategory === name;
+        return (
           <div
-            className={`absolute left-[calc(100%+70px)] top-1/2 flex -translate-y-1/2 flex-col gap-0.5 text-white transition-opacity duration-300 ${
-              activeCategory === name
-                ? "opacity-100"
-                : "opacity-70 group-hover:opacity-100 group-focus:opacity-100"
-            }`}
+            key={name}
+            className="absolute cursor-pointer group focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-dark rounded-full p-2"
+            style={pos}
+            onClick={() => onSelectCategory(name)}
+            role="button"
+            aria-pressed={isActive}
+            tabIndex={0}
+            onKeyDown={(e) =>
+              (e.key === "Enter" || e.key === " ") && onSelectCategory(name)
+            }
           >
-            <span className="text-xl inline-block font-mulish font-normal !leading-[1.255] whitespace-nowrap">
-              {name}
-            </span>
-            <span
-              className={`text-sm font-mulish font-normal !leading-[1.255] flex h-6 w-max items-center justify-center rounded-full bg-[#5A688A] px-3`}
-            >
-              {" "}
-              {/* Updated syntax */}
-              {count} Rides
-            </span>
+            <Icon
+              className={
+                isActive
+                  ? "scale-[1.35]"
+                  : "scale-100 group-hover:scale-110 group-focus:scale-110"
+              }
+              // Icon fill is always ICON_BLUE as it's either on white marker or dark background
+            />
+            {/* Text is hidden when category is active (as it would be behind the marker) */}
+            {!isActive && (
+              <div
+                className={`absolute left-[calc(100%+70px)] top-1/2 flex -translate-y-1/2 flex-col gap-0.5 text-white transition-opacity duration-300 opacity-70 group-hover:opacity-100 group-focus:opacity-100`}
+              >
+                <span className="text-xl inline-block font-mulish font-normal !leading-[1.255] whitespace-nowrap">
+                  {name}
+                </span>
+                <span
+                  className={`text-sm font-mulish font-normal !leading-[1.255] flex h-6 w-max items-center justify-center rounded-full bg-[${LIGHT_BLUE_BADGE}] px-3`}
+                >
+                  {count} Rides
+                </span>
+              </div>
+            )}
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
